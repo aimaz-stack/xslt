@@ -20,11 +20,16 @@
         </header>
         
         <main>
-          <!-- Asignamos el mes 11 a la variable mes y lo mostramos en la cabecera -->
+          <!-- Asignamos el mes 11 a la variable mes y lo mostramos en la cabecera, el valor siempre 2 digitos -->
           <xsl:variable name="mes" select="11"/>
           <h1>Actividades del mes <xsl:value-of select="$mes"/></h1>
           <!-- Solo seleccionamos las actividades cuyo mes en la fechaHora sea igual a la variable mes -->
-          <xsl:apply-templates select="jardinBotanico/actividades/actividad[substring(fechaHora,6,2) = $mes]"/>
+          <xsl:apply-templates select="jardinBotanico/actividades/actividad[substring(fechaHora,6,2) = $mes]">
+            <!-- Ordenamos por fecha en orden descendente -->
+            <xsl:sort select="substring(fechaHora,1,10)" order="descending" data-type="text"/>
+            <!-- Ordenamos por hora descendente cuando la fecha es la misma -->
+            <xsl:sort select="substring(fechaHora,12,8)" order="descending" data-type="text"/>
+          </xsl:apply-templates>
         </main>
         
         <footer>
